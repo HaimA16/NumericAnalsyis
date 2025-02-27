@@ -77,7 +77,7 @@ def polynomialInterpolation(table_points, x):
 
 
 def main():
-    # קלט מספר המשתמש עבור נקודות ה- x וה- y
+
     n = int(input("Enter the number of data points: "))
 
     table_points = []
@@ -86,10 +86,10 @@ def main():
         x, y = map(float, input(f"Point {i+1}: ").split())
         table_points.append((x, y))
 
-    # קלט עבור x להערכה
+
     x = float(input("\nEnter the x value to interpolate: "))
 
-    # חישוב והצגת התוצאה
+
     print(bcolors.OKBLUE, "----------------- Interpolation & Extrapolation Methods -----------------\n", bcolors.ENDC)
     print(bcolors.OKBLUE, "Table Points: ", bcolors.ENDC, table_points)
     print(bcolors.OKBLUE, "Finding an approximation to the point: ", bcolors.ENDC, x, '\n')

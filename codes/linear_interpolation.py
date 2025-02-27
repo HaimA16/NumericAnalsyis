@@ -32,7 +32,7 @@ def linearInterpolation(table_points, point):
 
 
 def main():
-    # קלט מספר המשתמש עבור נקודות ה- x וה- y
+
     n = int(input("Enter the number of data points: "))
 
     table_points = []
@@ -41,10 +41,10 @@ def main():
         x, y = map(float, input(f"Point {i+1}: ").split())
         table_points.append((x, y))
 
-    # קלט עבור נקודות להערכה
+
     x_interpolate = list(map(float, input("\nEnter the x values to interpolate (separated by spaces): ").split()))
 
-    # חישוב והצגת התוצאה
+
     print("\nInterpolation & Extrapolation Results:")
     for x in x_interpolate:
         linearInterpolation(table_points, x)

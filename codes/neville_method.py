@@ -18,7 +18,7 @@ def neville(x_data, y_data, x_interpolate):
 
 
 def main():
-    # קלט מספר המשתמש עבור נקודות ה- x וה- y
+
     n = int(input("Enter the number of data points: "))
 
     x_data = []
@@ -29,10 +29,10 @@ def main():
         x_data.append(x)
         y_data.append(y)
 
-    # קלט עבור נקודה להערכה
+
     x_interpolate = float(input("\nEnter the x value to interpolate: "))
 
-    # חישוב והצגת התוצאה
+
     interpolated_value = neville(x_data, y_data, x_interpolate)
     print(bcolors.OKBLUE, f"\nInterpolated value at x = {x_interpolate} is y = {round(interpolated_value, 4)}", bcolors.ENDC)
 

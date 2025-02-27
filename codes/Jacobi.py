@@ -87,7 +87,7 @@ def get_jacobi_solution(mat, b, n, X0, TOL):
 
 
 def main():
-    # קלט מספר המשתמש למטריצה A
+
     n = int(input("Enter the size of the matrix (n x n): "))
 
     print("Enter the matrix A row by row (separate numbers with spaces):")
@@ -98,18 +98,18 @@ def main():
 
     A = np.array(A)
 
-    # קלט לווקטור b
+
     print("\nEnter the vector b (separate numbers with spaces):")
     b = np.array(list(map(float, input().split())))
 
-    # קלט לערכי האתחול X0
+
     print("\nEnter the initial guess X0 (separate numbers with spaces):")
     X0 = np.array(list(map(float, input().split())))
 
-    # קלט לסובלנות
+
     TOL = float(input("\nEnter the tolerance (default 0.001): ") or 0.001)
 
-    # הרצת האלגוריתם
+
     solution = get_jacobi_solution(A, b, n, X0, TOL)
     print("\nApproximate solution:", solution)
 

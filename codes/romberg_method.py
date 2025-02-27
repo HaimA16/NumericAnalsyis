@@ -37,25 +37,25 @@ def romberg_integration(func, a, b, n):
 
 
 def main():
-    # הגדרת משתנה x
+
     x = sp.symbols('x')
 
-    # קלט עבור הפונקציה
+
     expr = input("Enter the function f(x): ")
     f_expr = sp.sympify(expr)
     f = sp.lambdify(x, f_expr, 'numpy')
 
-    # קלט עבור גבולות האינטגרציה
+
     a = float(input("Enter the lower limit of integration (a): "))
     b = float(input("Enter the upper limit of integration (b): "))
 
-    # קלט עבור מספר האיטרציות
+
     n = int(input("Enter the number of iterations (higher value = better accuracy, default 5): ") or 5)
 
-    # חישוב האינטגרל
+
     integral = romberg_integration(f, a, b, n)
 
-    # הצגת התוצאה
+
     print(f"\nDivision into n={n} sections")
     print(bcolors.OKBLUE, f"Approximate integral in range [{a},{b}] is {integral:.6f}", bcolors.ENDC)
 

@@ -46,7 +46,7 @@ def evaluate_natural_cubic_spline(x, y, x_vals):
 
 
 def main():
-    # קלט מהמשתמש עבור x ו- y
+
     n = int(input("Enter the number of data points: "))
 
     x_data = []
@@ -60,10 +60,10 @@ def main():
     x_data = np.array(x_data)
     y_data = np.array(y_data)
 
-    # קלט עבור נקודות להערכה
+
     x_vals = list(map(float, input("Enter the x values to evaluate (separated by spaces): ").split()))
 
-    # חישוב והדפסה של התוצאות
+
     y_vals = evaluate_natural_cubic_spline(x_data, y_data, x_vals)
 
     for i, x_val in enumerate(x_vals):

@@ -36,29 +36,29 @@ def simpsons_rule(f, a, b, n):
 
 
 def main():
-    # הגדרת משתנה x
+
     x = sp.symbols('x')
 
-    # קלט עבור הפונקציה
+
     expr = input("Enter the function f(x): ")
     f_expr = sp.sympify(expr)
     f = sp.lambdify(x, f_expr, 'numpy')
 
-    # קלט עבור גבולות האינטגרציה
+
     a = float(input("Enter the lower limit of integration (a): "))
     b = float(input("Enter the upper limit of integration (b): "))
 
-    # קלט עבור מספר תת-החלוקות (חייב להיות זוגי)
+
     while True:
         n = int(input("Enter the number of subintervals (even number, default 10): ") or 10)
         if n % 2 == 0:
             break
         print("Error: Number of subintervals must be even. Please enter again.")
 
-    # חישוב האינטגרל
+
     integral = simpsons_rule(f, a, b, n)
 
-    # הצגת התוצאה
+
     print(f"\nDivision into n={n} sections")
     print(bcolors.OKBLUE, f"Numerical Integration of definite integral in range [{a},{b}] is {integral:.6f}", bcolors.ENDC)
 

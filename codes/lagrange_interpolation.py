@@ -28,7 +28,7 @@ def lagrange_interpolation(x_data, y_data, x):
 
 
 def main():
-    # קלט מספר המשתמש עבור נקודות ה- x וה- y
+
     n = int(input("Enter the number of data points: "))
 
     x_data = []
@@ -39,10 +39,10 @@ def main():
         x_data.append(x)
         y_data.append(y)
 
-    # קלט עבור נקודות להערכה
+
     x_interpolate = list(map(float, input("\nEnter the x values to interpolate (separated by spaces): ").split()))
 
-    # חישוב והצגת התוצאה
+
     print("\nInterpolated Values:")
     for x in x_interpolate:
         y_interpolate = lagrange_interpolation(x_data, y_data, x)
