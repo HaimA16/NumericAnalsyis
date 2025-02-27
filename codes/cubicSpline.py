@@ -39,20 +39,36 @@ def evaluate_natural_cubic_spline(x, y, x_vals):
         for i in range(len(x) - 1):
             if x[i] <= x_val <= x[i + 1]:
                 dx = x_val - x[i]
-                y_val = a[i] + b[i]
-                dx + c[i] * dx * 2 + d[i] * dx * 3
-                y_vals.append(y_val)
+                y_val = a[i] + b[i] * dx + c[i] * dx ** 2 + d[i] * dx ** 3
+                y_vals.append(round(y_val, 4))
                 break
-    return round(y_vals[0], 1), round(y_vals[1], 1)
+    return y_vals
 
 
-# Data points
-x_data = np.array([0.2, 0.35, 0.45, 0.6, 0.75])
-y_data = np.array([3.7241, 3.9776, 4.0625, 2.9776, 3.7241])
+def main():
+    # קלט מהמשתמש עבור x ו- y
+    n = int(input("Enter the number of data points: "))
 
-# Points to evaluate the spline
-x_vals = [0.4, 0.65]
+    x_data = []
+    y_data = []
+    print("Enter the x and y values (separated by space):")
+    for i in range(n):
+        x, y = map(float, input(f"Point {i + 1}: ").split())
+        x_data.append(x)
+        y_data.append(y)
 
-# Evaluate the spline
-y_vals = evaluate_natural_cubic_spline(x_data, y_data, x_vals)
-print(y_vals)
+    x_data = np.array(x_data)
+    y_data = np.array(y_data)
+
+    # קלט עבור נקודות להערכה
+    x_vals = list(map(float, input("Enter the x values to evaluate (separated by spaces): ").split()))
+
+    # חישוב והדפסה של התוצאות
+    y_vals = evaluate_natural_cubic_spline(x_data, y_data, x_vals)
+
+    for i, x_val in enumerate(x_vals):
+        print(f"f({x_val}) ≈ {y_vals[i]}")
+
+
+if __name__ == "__main__":
+    main()

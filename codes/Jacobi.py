@@ -3,13 +3,8 @@ from numpy.linalg import norm
 from matrix_utility import is_diagonally_dominant
 
 
-
 def swap_row(mat, i, j):
-    N = len(mat)
-    for k in range(N + 1):
-        temp = mat[i][k]
-        mat[i][k] = mat[j][k]
-        mat[j][k] = temp
+    mat[[i, j]] = mat[[j, i]]
 
 
 def get_best_diagonal(mat, n):
@@ -21,12 +16,9 @@ def get_best_diagonal(mat, n):
                 v_max = mat[j][i]
                 pivot_row = j
 
-        # if a principal diagonal element is zero,it denotes that matrix is singular,
-        # and will lead to a division-by-zero later.
         if not mat[pivot_row][i]:
             return i  # Matrix is singular
 
-        # Swap the current row with the pivot row
         if pivot_row != i:
             swap_row(mat, i, pivot_row)
     return -1
@@ -44,32 +36,16 @@ def check_if_singular(mat, b, n):
     return -1
 
 
-
 def get_D(mat, n):
-    D = np.zeros((n, n), dtype=np.double)
-    for i in range(n):
-        for j in range(n):
-            if i == j:
-                D[i][j] = mat[i][j]
-    return D
+    return np.diag(np.diag(mat))
 
 
 def get_L(mat, n):
-    L = np.zeros((n, n), dtype=np.double)
-    for i in range(n):
-        for j in range(n):
-            if i > j:
-                L[i][j] = mat[i][j]
-    return L
+    return np.tril(mat, k=-1)
 
 
 def get_U(mat, n):
-    U = np.zeros((n, n), dtype=np.double)
-    for i in range(n):
-        for j in range(n):
-            if i < j:
-                U[i][j] = mat[i][j]
-    return U
+    return np.triu(mat, k=1)
 
 
 def get_jacobi_H(mat, n):
@@ -78,45 +54,65 @@ def get_jacobi_H(mat, n):
 
 def get_jacobi_G(mat, n):
     inverse_of_D = np.linalg.inv(get_D(mat, n))
-    L_plus_U = get_L(mat, n) + get_U(mat, n)
-    return np.dot(inverse_of_D, L_plus_U)*(-1)
+    return -np.dot(inverse_of_D, get_L(mat, n) + get_U(mat, n))
 
 
 def jacobi_iterative(mat, b, n, X0, TOL=0.001):
     H = get_jacobi_H(mat, n)
     G = get_jacobi_G(mat, n)
     k = 1
-    print("Jacobi:")
+
+    print("\nJacobi Method Iterations:")
     print("Iteration" + "\t\t\t".join(
         [" {:>12}".format(var) for var in ["x{}".format(i) for i in range(1, len(mat) + 1)]]))
     print("-----------------------------------------------------------------------------------------------")
+
     while True:
         x = np.dot(G, X0) + np.dot(H, b)
         print("{:<15} ".format(k) + "\t\t".join(["{:<15} ".format(val) for val in x]))
+
         if norm(x - X0, np.inf) < TOL:
             return tuple(x)
+
         k += 1
         X0 = x.copy()
 
 
-def get_jacobi_solution(mat, b, n, X0):
+def get_jacobi_solution(mat, b, n, X0, TOL):
     if check_if_singular(mat, b, n) == -1:
         if not is_diagonally_dominant(mat):
             print('Matrix is not diagonally dominant!\n')
         else:
-            return jacobi_iterative(mat, b, n, X0)
+            return jacobi_iterative(mat, b, n, X0, TOL)
 
 
-#########################################################
+def main():
+    # קלט מספר המשתמש למטריצה A
+    n = int(input("Enter the size of the matrix (n x n): "))
+
+    print("Enter the matrix A row by row (separate numbers with spaces):")
+    A = []
+    for i in range(n):
+        row = list(map(float, input(f"Row {i+1}: ").split()))
+        A.append(row)
+
+    A = np.array(A)
+
+    # קלט לווקטור b
+    print("\nEnter the vector b (separate numbers with spaces):")
+    b = np.array(list(map(float, input().split())))
+
+    # קלט לערכי האתחול X0
+    print("\nEnter the initial guess X0 (separate numbers with spaces):")
+    X0 = np.array(list(map(float, input().split())))
+
+    # קלט לסובלנות
+    TOL = float(input("\nEnter the tolerance (default 0.001): ") or 0.001)
+
+    # הרצת האלגוריתם
+    solution = get_jacobi_solution(A, b, n, X0, TOL)
+    print("\nApproximate solution:", solution)
 
 
-if __name__ == '__main__':
-    mat = np.array([[3, -1, 1],
-                    [0, 2, -1],
-                    [0, 1, -2]])
-    n = len(mat)
-    b = np.array([4, -1, -3])
-    x = np.zeros_like(b, dtype=np.double)
-
-    solution = get_jacobi_solution(mat, b, n, x)
-    print(solution, "\n")
+if __name__ == "__main__":
+    main()

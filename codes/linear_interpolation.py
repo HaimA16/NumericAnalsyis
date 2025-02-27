@@ -7,44 +7,48 @@ Parameters:
 - point: the point at which to interpolate
 Returns:
 - None
-
--correct
 """
 
 def linearInterpolation(table_points, point):
-    p = []
+    p = [table_points[i][0] for i in range(len(table_points))]
     result = 0
     flag = 1
-    for i in range(len(table_points)):
-        p.append(table_points[i][0])
+
     for i in range(len(p) - 1):
-        if i <= point <= i + 1:
-            x1 = table_points[i][0]
-            x2 = table_points[i + 1][0]
-            y1 = table_points[i][1]
-            y2 = table_points[i + 1][1]
+        if p[i] <= point <= p[i + 1]:
+            x1, y1 = table_points[i]
+            x2, y2 = table_points[i + 1]
             result = (((y1 - y2) / (x1 - x2)) * point) + ((y2 * x1) - (y1 * x2)) / (x1 - x2)
-            print(bcolors.OKGREEN, "\nThe approximation (interpolation) of the point ", point, " is: ",bcolors.ENDC, round(result, 4))
+            print(bcolors.OKGREEN, f"\nThe approximation (interpolation) of the point {point} is: {round(result, 4)}", bcolors.ENDC)
             flag = 0
+            break
+
     if flag:
-        x1 = table_points[0][0]
-        x2 = table_points[1][0]
-        y1 = table_points[0][1]
-        y2 = table_points[1][1]
+        x1, y1 = table_points[0]
+        x2, y2 = table_points[1]
         m = (y1 - y2) / (x1 - x2)
         result = y1 + m * (point - x1)
-        print(bcolors.OKGREEN, "\nThe approximation (extrapolation) of the point ", point, " is: ",bcolors.ENDC, round(result, 4))
+        print(bcolors.OKGREEN, f"\nThe approximation (extrapolation) of the point {point} is: {round(result, 4)}", bcolors.ENDC)
 
 
-if __name__ == '__main__':
+def main():
+    # קלט מספר המשתמש עבור נקודות ה- x וה- y
+    n = int(input("Enter the number of data points: "))
 
-    table_points = [(0, 0), (1, 0.8415), (2, 0.9093), (3, 0.1411), (4, -0.7568), (5, -0.9589), (6, -0.2794)]
-    x = 1.28
-    print(bcolors.OKBLUE, "----------------- Interpolation & Extrapolation Methods -----------------\n", bcolors.ENDC)
-    print(bcolors.OKBLUE, "Table Points: ", bcolors.ENDC, table_points)
-    print(bcolors.OKBLUE, "Finding an approximation to the point: ", bcolors.ENDC, x)
-    linearInterpolation(table_points, x)
-    print(bcolors.OKBLUE, "\n---------------------------------------------------------------------------\n", bcolors.ENDC)
+    table_points = []
+    print("Enter the x and y values (separated by space):")
+    for i in range(n):
+        x, y = map(float, input(f"Point {i+1}: ").split())
+        table_points.append((x, y))
+
+    # קלט עבור נקודות להערכה
+    x_interpolate = list(map(float, input("\nEnter the x values to interpolate (separated by spaces): ").split()))
+
+    # חישוב והצגת התוצאה
+    print("\nInterpolation & Extrapolation Results:")
+    for x in x_interpolate:
+        linearInterpolation(table_points, x)
 
 
-
+if __name__ == "__main__":
+    main()

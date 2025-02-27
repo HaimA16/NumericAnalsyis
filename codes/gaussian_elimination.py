@@ -56,7 +56,7 @@ def forward_substitution(mat):
 
 
 def identity_matrix_with_solution(A_b, x):
-    A_b = np.zeros((3, 4))
+    A_b = np.zeros((len(x), len(x) + 1))
     np.fill_diagonal(A_b, 1)
     for i in range(len(A_b)):
         A_b[i][-1] = x[i]
@@ -78,7 +78,7 @@ def calculating_results(A_b):
     return identity_matrix_with_solution(A_b, x)
 
 
-if __name__ == '__main__':
+def main():
     try:
         num_equations = int(input("Enter the number of equations: "))
         num_unknowns = int(input("Enter the number of unknowns: "))
@@ -98,8 +98,13 @@ if __name__ == '__main__':
             print("\nSolution for the system: ")
             for i, value in enumerate(result):
                 print(f"Solution for unknown {i + 1}: {value[-1]:.6f}")
-        for i in range(len(A_b)):
-            print(result[i])
+            print("\nFinal augmented matrix:")
+            for row in result:
+                print(row)
 
     except ValueError as e:
         print(f"Error: {e}")
+
+
+if __name__ == "__main__":
+    main()

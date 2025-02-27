@@ -10,9 +10,10 @@ def gauss_seidel(A, b, X0, TOL=1e-16, N=200):
     k = 1
 
     if is_diagonally_dominant(A):
-        print('Matrix is diagonally dominant - preforming gauss seidel algorithm\n')
+        print('Matrix is diagonally dominant - performing Gauss-Seidel algorithm\n')
 
-    print( "Iteration" + "\t\t\t".join([" {:>12}".format(var) for var in ["x{}".format(i) for i in range(1, len(A) + 1)]]))
+    print(
+        "Iteration" + "\t\t\t".join([" {:>12}".format(var) for var in ["x{}".format(i) for i in range(1, len(A) + 1)]]))
     print("-----------------------------------------------------------------------------------------------")
     x = np.zeros(n, dtype=np.double)
     while k <= N:
@@ -36,13 +37,34 @@ def gauss_seidel(A, b, X0, TOL=1e-16, N=200):
     return tuple(x)
 
 
-if __name__ == '__main__':
+def main():
+    # קלט מספר המשתמש למטריצה A
+    n = int(input("Enter the size of the matrix (n x n): "))
 
-    A = np.array([[3, -1, 1], [0, 1, -1], [1, 1, -2]])
-    b = np.array([4, -1, -3])
-    X0 = np.zeros_like(b)
+    print("Enter the matrix A row by row (separate numbers with spaces):")
+    A = []
+    for i in range(n):
+        row = list(map(float, input(f"Row {i + 1}: ").split()))
+        A.append(row)
 
-    solution =gauss_seidel(A, b, X0)
-    print(bcolors.OKBLUE,"\nApproximate solution:", solution)
+    A = np.array(A)
+
+    # קלט לווקטור b
+    print("\nEnter the vector b (separate numbers with spaces):")
+    b = np.array(list(map(float, input().split())))
+
+    # קלט לערכי האתחול X0
+    print("\nEnter the initial guess X0 (separate numbers with spaces):")
+    X0 = np.array(list(map(float, input().split())))
+
+    # קלט לסובלנות ולמספר האיטרציות
+    TOL = float(input("\nEnter the tolerance (default 1e-16): ") or 1e-16)
+    N = int(input("Enter the maximum number of iterations (default 200): ") or 200)
+
+    # הרצת האלגוריתם
+    solution = gauss_seidel(A, b, X0, TOL, N)
+    print(bcolors.OKBLUE, "\nApproximate solution:", solution, bcolors.ENDC)
 
 
+if __name__ == "__main__":
+    main()

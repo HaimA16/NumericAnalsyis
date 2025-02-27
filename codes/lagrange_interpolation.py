@@ -13,7 +13,6 @@ def lagrange_interpolation(x_data, y_data, x):
 
     Returns:
     float: The interpolated y-value at the given x.
-    Correct!
     """
     n = len(x_data)
     result = 0.0
@@ -27,16 +26,28 @@ def lagrange_interpolation(x_data, y_data, x):
 
     return result
 
-import numpy as np
 
-if __name__ == '__main__':
-    x_data = [1.2 , 1.3 , 1.4 , 1.5 , 1.6]
-    y_data = [1.31, 2.69, 1.30, -1.25, -2.1 ]
-    x_interpolate = [1.47, 1.65]  # The x-values where you want to interpolate
-    for item in x_interpolate:
-        y_interpolate = lagrange_interpolation(x_data, y_data, item)
-        print("Interpolated value at x =", item, "is y =", y_interpolate)
+def main():
+    # קלט מספר המשתמש עבור נקודות ה- x וה- y
+    n = int(input("Enter the number of data points: "))
+
+    x_data = []
+    y_data = []
+    print("Enter the x and y values (separated by space):")
+    for i in range(n):
+        x, y = map(float, input(f"Point {i+1}: ").split())
+        x_data.append(x)
+        y_data.append(y)
+
+    # קלט עבור נקודות להערכה
+    x_interpolate = list(map(float, input("\nEnter the x values to interpolate (separated by spaces): ").split()))
+
+    # חישוב והצגת התוצאה
+    print("\nInterpolated Values:")
+    for x in x_interpolate:
+        y_interpolate = lagrange_interpolation(x_data, y_data, x)
+        print(f"Interpolated value at x = {x} is y = {round(y_interpolate, 4)}")
 
 
-
-
+if __name__ == "__main__":
+    main()
